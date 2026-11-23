@@ -247,6 +247,8 @@ class XiangShan(object):
             return_code = self.__exec_cmd(f'make -C $NOOP_HOME emu -j{threads} SIM_ARGS="{sim_args}" {make_args}')
         elif self.args.emulator == "gsim":
             return_code = self.__exec_cmd(f'make -C $NOOP_HOME gsim GSIM=1 -j{threads} SIM_ARGS="{sim_args}" {make_args}')
+        elif self.args.emulator == "lemu":
+            return_code = self.__exec_cmd(f'make -C $NOOP_HOME lemu -j{threads} SIM_ARGS="{sim_args}" {make_args}')
         else:
             raise ValueError(f"Unsupported emulator: {self.args.emulator}")
         return return_code
@@ -722,7 +724,7 @@ if __name__ == "__main__":
     parser.add_argument('--pgo-max-cycle', nargs='?', default=400000, type=int, help='maximun cycle to train pgo')
     parser.add_argument('--pgo-emu-args', nargs='?', default='--no-diff', type=str, help='emu arguments for pgo')
     parser.add_argument('--llvm-profdata', nargs='?', type=str, help='corresponding llvm-profdata command of clang to compile emu, do not set with GCC')
-    parser.add_argument('--emulator', choices=['verilator', 'gsim'], default='verilator', type=str, help='use verilator or gsim to compile emu')
+    parser.add_argument('--emulator', choices=['verilator', 'gsim', 'lemu'], default='verilator', type=str, help='use verilator, gsim or lemu to compile emu')
 
     args = parser.parse_args()
 
